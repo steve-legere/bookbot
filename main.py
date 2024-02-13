@@ -16,9 +16,25 @@ def init_parser():
 
     return parser, args
 
+def process_text(text):
+    words = text.split()
+    chars = {}
+    for char in text:
+        if char in chars:
+            chars[char] += 1
+        else:
+            chars[char] = 1
+    return words, chars
+
 def main():
     parser, args = init_parser()
-    print(f"Got {args.book}")
+    try:
+        with open(args.file) as f:
+            text = f.read()
+            words, chars = process_text(text)
+            print(f"There are {len(words)} words and {len(chars)} characters.")      
+    except FileNotFoundError as e:
+        exit(e)
 
 if __name__ == '__main__':
     main()
